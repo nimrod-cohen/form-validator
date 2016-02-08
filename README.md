@@ -12,7 +12,7 @@ and will not submit the form unless all fields pass validity checks.
 ### How to use:
 
 Link your page to the form-validator.js script and then deploy the script below at the bottom of your page, above the </body> tag.
-	<script>
+	&lt;script&gt;
 		var options = {
 	        forms: [{  /* notice the array, you can assign several forms */
 	        selector : "#frmDetails", /* this is where you tell the script how to find the form. */
@@ -27,6 +27,6 @@ Link your page to the form-validator.js script and then deploy the script below 
 		{
 			alert(success ? "Yes" : "No");
 		}
-	</script>
+	&lt;/script&gt;
 
 
