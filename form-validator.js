@@ -104,10 +104,10 @@ window["form_validator"] = window["form_validator"] || {
 
 		field = $(field);
 		var val = field.val() ? field.val().trim() : "";
-		var type = field.prop("type");
+		var type = field.attr("type");
 		type = type || "unknown";
 
-		if(field.prop("required"))
+		if(field.attr("required"))
 		{
 			if(val.length == 0 || (type == 'checkbox' && !field.is(":checked")))
 			{
@@ -128,7 +128,7 @@ window["form_validator"] = window["form_validator"] || {
 						return false;
 					break;
 				case 'text':
-					if(field.prop('list'))
+					if(field.attr('list'))
 					{
 						if(!window.form_validator.checkList(field,val))
 							return false;
@@ -142,7 +142,7 @@ window["form_validator"] = window["form_validator"] || {
 
 	checkList : function(field,val)
 	{
-		var options = $(field.prop("list")).find("option");
+		var options = $(field.attr("list")).find("option");
 
 		for(var i = 0; i < options.length; i++)
 			if($(options[i]).val().toLowerCase() == val.toLowerCase())
@@ -190,7 +190,7 @@ window["form_validator"] = window["form_validator"] || {
 	showError : function(field,message)
 	{
 		field.css("background-color","#FFDECA");
-		var fieldName = field.prop("name");
+		var fieldName = field.attr("name");
 		console.log(fieldName+" "+message);
 
 		var pos = field.offset();
@@ -198,7 +198,7 @@ window["form_validator"] = window["form_validator"] || {
 		var width = field.outerWidth();
 
 		var errorFieldId = "err_" + (Math.floor(Math.random() * (1000000 - 1000 + 1)) + 1000);
-		field.prop("error-id",errorFieldId);
+		field.attr("error-id",errorFieldId);
 
 		$(document.body).append("<span id='"+errorFieldId+"' field-name='"+fieldName+"'><img src='"+window.form_validator.exclamationImg+"' /></span>");
 
@@ -212,13 +212,16 @@ window["form_validator"] = window["form_validator"] || {
 	clean : function()
 	{
 		var field = $(this);
-		var fieldName = field.prop("name");
-		var errorFieldId = field.prop("error-id");
+		var fieldName = field.attr("name");
+		var errorFieldId = field.attr("error-id");
+
+		if(typeof errorFieldId === "undefined")
+			return;
 
 		console.log("cleaning :"+fieldName);
 
 		field.css("background-color", "");
 		$("span#"+errorFieldId).remove();
-		field.removeProp("error-id");
+		field.removeAttr("error-id");
 	}
 }
