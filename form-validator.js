@@ -197,7 +197,7 @@ window["form_validator"] = window["form_validator"] || {
 		var height = field.outerHeight();
 		var width = field.outerWidth();
 
-		var errorFieldId = "err_" + Math.random();
+		var errorFieldId = "err_" + (Math.floor(Math.random() * (1000000 - 1000 + 1)) + 1000);
 		field.prop("error-id",errorFieldId);
 
 		$(document.body).append("<span id='"+errorFieldId+"' field-name='"+fieldName+"'><img src='"+window.form_validator.exclamationImg+"' /></span>");
@@ -205,7 +205,7 @@ window["form_validator"] = window["form_validator"] || {
 		var top = (pos.top + (height - 16) / 2);
 		var left = pos.left + width - 20;
 
-		$("span#"+errorFieldId).css({"position":"absolute",top:top,left:left});
+		$("span#"+errorFieldId).css({"position":"absolute","top":top,"left":left,"z-index":"100000"});
 
 	},
 
