@@ -1,6 +1,7 @@
 window["form_validator"] = window["form_validator"] || {
 
 	options : null,
+	disposable_email_domains : null,
 
 	exclamationImg : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4AIHEDcohBNxRQAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAAvElEQVQ4y62TTQqDMBCFv8Qsu1Ra8A7idbryytJNL9BNtgV1U6ddNMKgY6DYB4Ehb+ZNMj8OAwIN0ALndBWB3sONHARqgSgwC7xXZ05cvRfc7QRaQp2VeR08KX4yRGotEI1Mo+JHg48APhWs5HeUAk1I1faGgxc4LbbFA21QrVqjAC7KtlCFzBMLoAJcRqAMaUgsOOAKPJNt4R6A/lvozT9fwEPZYTs69Lk2Dspz2Gvjfwbp8CgfWSZ3dJ0/kSXCTm81zRsAAAAASUVORK5CYII=",
 
@@ -11,10 +12,16 @@ window["form_validator"] = window["form_validator"] || {
 		if(this.options.enable_disposables_check)
 			this.loadDisposableEmailDomains();
 
+		this.addForms(this.options.forms)
+	},
+
+	//for lazy loading
+	addForms : function (forms)
+	{
 		//find all forms
-		for(var i = 0; i < options.forms.length; i++)
+		for(var i = 0; i < forms.length; i++)
 		{
-			var form = options.forms[i];
+			var form = forms[i];
 			var formElement = $(form.selector);
 
 			formElement.attr("novalidate","novalidate");
@@ -26,6 +33,9 @@ window["form_validator"] = window["form_validator"] || {
 
 	loadDisposableEmailDomains : function()
 	{
+		if(this.disposable_email_domains != null)
+			return;
+
 		var self = this;
 		jQuery.getJSON("https://raw.githubusercontent.com/ivolo/disposable-email-domains/master/index.json",function(data){
 			self.disposable_email_domains = data;

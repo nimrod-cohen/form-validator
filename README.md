@@ -26,4 +26,12 @@ Link your page to the form-validator.js script and then deploy the script below 
             /* form element is the form that passed */
         }
 
+### Adding dynamically loaded forms
+if forms are popped up, and were not available during init, you may add the ad-hoc using
+        var forms = [{
+            selector : "#someDynamicallyLoadedForm",
+            callback : validationDone
+        }];
+        window.form_validator.addForms(forms); /* notice you should pass an array, even for a single form */
+
 
