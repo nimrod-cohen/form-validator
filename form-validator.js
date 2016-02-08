@@ -197,12 +197,15 @@ window["form_validator"] = window["form_validator"] || {
 		var height = field.outerHeight();
 		var width = field.outerWidth();
 
-		field.parent().append("<span field-name='"+fieldName+"'><img src='"+window.form_validator.exclamationImg+"' /></span>");
+		var errorFieldId = "err_" + Math.random();
+		field.prop("error-id",errorFieldId);
+
+		$(document.body).append("<span id='"+errorFieldId+"' field-name='"+fieldName+"'><img src='"+window.form_validator.exclamationImg+"' /></span>");
 
 		var top = (pos.top + (height - 16) / 2);
 		var left = pos.left + width - 20;
 
-		$("span[field-name='"+fieldName+"']").css({"position":"absolute",top:top,left:left});
+		$("span#"+errorFieldId).css({"position":"absolute",top:top,left:left});
 
 	},
 
@@ -210,10 +213,12 @@ window["form_validator"] = window["form_validator"] || {
 	{
 		var field = $(this);
 		var fieldName = field.prop("name");
+		var errorFieldId = field.prop("error-id");
 
 		console.log("cleaning :"+fieldName);
 
 		field.css("background-color", "");
-		$("span[field-name='"+fieldName+"']").remove();
+		$("span#"+errorFieldId).remove();
+		field.removeProp("error-id");
 	}
 }
