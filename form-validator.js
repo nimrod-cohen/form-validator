@@ -17,6 +17,8 @@ window["form_validator"] = window["form_validator"] || {
 			var form = options.forms[i];
 			var formElement = $(form.selector);
 
+			formElement.attr("novalidate","novalidate");
+
 			if(formElement.length > 0)
 				this.attachChecks(formElement,form.callback);
 		}
