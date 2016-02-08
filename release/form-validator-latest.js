@@ -77,7 +77,7 @@ window["form_validator"] = window["form_validator"] || {
 		};
 
 		if(!failed)
-			callback(form);
+			callback(form.get(0));
 	},
 
 	//support event based (blur) of doCheck

@@ -21,9 +21,9 @@ Link your page to the form-validator.js script and then deploy the script below 
             enable_disposables_check : true /* This option allow you to check for temporary email services used as email address */
         };
         window.form_validator.init(options);
-        function validationDone(success) /* this function should submit the lead to the lead collection system, and/or redirect to a thank you page */
+        function validationDone(form) /* this function should submit the lead to the lead collection system, and/or redirect to a thank you page */
         {
-            alert(success ? "Yes" : "No");
+            /* form element is the form that passed */
         }
 
 
