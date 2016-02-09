@@ -189,7 +189,7 @@ window["form_validator"] = window["form_validator"] || {
 
 	showError : function(field,message)
 	{
-		field.css("background-color","#FFDECA");
+		field.css("background-color","rgba(255,0,0,0.1)");
 		var fieldName = field.attr("name");
 		console.log(fieldName+" "+message);
 
