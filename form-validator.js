@@ -193,20 +193,19 @@ window["form_validator"] = window["form_validator"] || {
 		var fieldName = field.attr("name");
 		console.log(fieldName+" "+message);
 
-		var pos = field.offset();
+		var pos = field.position();
 		var height = field.outerHeight();
 		var width = field.outerWidth();
 
 		var errorFieldId = "err_" + (Math.floor(Math.random() * (1000000 - 1000 + 1)) + 1000);
 		field.attr("error-id",errorFieldId);
 
-		$(document.body).append("<span id='"+errorFieldId+"' field-name='"+fieldName+"'><img src='"+window.form_validator.exclamationImg+"' /></span>");
+		field.parent().append("<span id='"+errorFieldId+"' field-name='"+fieldName+"'><img src='"+window.form_validator.exclamationImg+"' /></span>");
 
 		var top = (pos.top + (height - 16) / 2);
 		var left = pos.left + width - 20;
 
 		$("span#"+errorFieldId).css({"position":"absolute","top":top,"left":left,"z-index":"100000"});
-
 	},
 
 	clean : function()
