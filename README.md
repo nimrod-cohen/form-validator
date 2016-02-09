@@ -18,7 +18,8 @@ Link your page to the form-validator.js script and then deploy the script below 
             selector : "#frmDetails", /* this is where you tell the script how to find the form. */
             callback : validationDone /* the callback function when all validations pass successfully */
             }],
-            enable_disposables_check : true /* This option allow you to check for temporary email services used as email address */
+            enable_disposables_check : true, /* This option allow you to check for temporary email services used as email address */
+            error_background : "yellow" /* optional parameter to override color of error field highlighting background */
         };
         window.form_validator.init(options);
         function validationDone(form) /* this function should submit the lead to the lead collection system, and/or redirect to a thank you page */

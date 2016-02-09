@@ -189,7 +189,8 @@ window["form_validator"] = window["form_validator"] || {
 
 	showError : function(field,message)
 	{
-		field.css("background-color","rgba(255,0,0,0.1)");
+		var bg = this.options.error_background ? this.options.error_background : "rgba(255,0,0,0.1)";
+		field.css("background-color",bg);
 		var fieldName = field.attr("name");
 		console.log(fieldName+" "+message);
 
