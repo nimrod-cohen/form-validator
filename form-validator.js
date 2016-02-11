@@ -54,8 +54,8 @@ window["form_validator"] = window["form_validator"] || {
 			if($(fields[i]).attr("type") == 'submit')
 				continue;
 
-			$(fields[i]).focus(this.clean);
-			$(fields[i]).blur(this.check);
+			$(fields[i]).focus(this.doClean);
+			$(fields[i]).blur(this.doCheck);
 
 			console.log(fields[i]);
 		};
@@ -84,7 +84,8 @@ window["form_validator"] = window["form_validator"] || {
 			if($(fields[i]).attr("type") == 'submit')
 				continue;
 
-			if( !window.form_validator.doCheck(fields[i]))
+			window.form_validator.cleanField($(fields[i]));
+			if( !window.form_validator.checkField($(fields[i])))
 				failed = true;
 		};
 
@@ -93,16 +94,15 @@ window["form_validator"] = window["form_validator"] || {
 	},
 
 	//support event based (blur) of doCheck
-	check : function()
+	doCheck : function()
 	{
-		window.form_validator.doCheck(this);
+		window.form_validator.checkField($(this));
 	},
 
-	doCheck : function(field)
+	checkField : function(field)
 	{
-		console.log("checking: "+field.name);
+		console.log("checking: "+field.attr("name"));
 
-		field = $(field);
 		var val = field.val() ? field.val().trim() : "";
 		var type = field.attr("type");
 		type = type || "unknown";
@@ -209,9 +209,8 @@ window["form_validator"] = window["form_validator"] || {
 		$("span#"+errorFieldId).css({"position":"absolute","top":top,"left":left,"z-index":"100000"});
 	},
 
-	clean : function()
+	cleanField : function (field)
 	{
-		var field = $(this);
 		var fieldName = field.attr("name");
 		var errorFieldId = field.attr("error-id");
 
@@ -223,5 +222,10 @@ window["form_validator"] = window["form_validator"] || {
 		field.css("background-color", "");
 		$("span#"+errorFieldId).remove();
 		field.removeAttr("error-id");
+	},
+
+	doClean : function()
+	{
+		window.form_validator.cleanField($(this));
 	}
 }
