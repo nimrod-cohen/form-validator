@@ -189,6 +189,8 @@ window["form_validator"] = window["form_validator"] || {
 
 	showError : function(field,message)
 	{
+		var leftAligned = this.css("direction") == "rtl";
+
 		var bg = this.options.error_background ? this.options.error_background : "rgba(255,0,0,0.1)";
 		field.css("background-color",bg);
 		var fieldName = field.attr("name");
@@ -204,7 +206,7 @@ window["form_validator"] = window["form_validator"] || {
 		field.parent().append("<span id='"+errorFieldId+"' field-name='"+fieldName+"'><img src='"+window.form_validator.exclamationImg+"' /></span>");
 
 		var top = (pos.top + (height - 16) / 2);
-		var left = pos.left + width - 20;
+		var left = pos.left + (leftAligned ? 20 : width - 20);
 
 		$("span#"+errorFieldId).css({"position":"absolute","top":top,"left":left,"z-index":"100000"});
 	},
