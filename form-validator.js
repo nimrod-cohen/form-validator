@@ -189,7 +189,7 @@ window["form_validator"] = window["form_validator"] || {
 
 	showError : function(field,message)
 	{
-		var leftAligned = this.css("direction") == "rtl";
+		var leftAligned = field.css("direction") == "rtl";
 
 		var bg = this.options.error_background ? this.options.error_background : "rgba(255,0,0,0.1)";
 		field.css("background-color",bg);
