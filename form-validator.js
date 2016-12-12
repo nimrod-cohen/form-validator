@@ -2,11 +2,13 @@ window["form_validator"] = window["form_validator"] || {
 
 	options : null,
 	disposable_email_domains : null,
+	$ : null,
 
 	exclamationImg : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4AIHEDcohBNxRQAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAAvElEQVQ4y62TTQqDMBCFv8Qsu1Ra8A7idbryytJNL9BNtgV1U6ddNMKgY6DYB4Ehb+ZNMj8OAwIN0ALndBWB3sONHARqgSgwC7xXZ05cvRfc7QRaQp2VeR08KX4yRGotEI1Mo+JHg48APhWs5HeUAk1I1faGgxc4LbbFA21QrVqjAC7KtlCFzBMLoAJcRqAMaUgsOOAKPJNt4R6A/lvozT9fwEPZYTs69Lk2Dspz2Gvjfwbp8CgfWSZ3dJ0/kSXCTm81zRsAAAAASUVORK5CYII=",
 
 	init : function(options)
 	{
+		this.$ = $ || jQuery;
 		this.options = options;
 
 		if(this.options.enable_disposables_check)
@@ -22,7 +24,7 @@ window["form_validator"] = window["form_validator"] || {
 		for(var i = 0; i < forms.length; i++)
 		{
 			var form = forms[i];
-			var formElement = $(form.selector);
+			var formElement = this.$(form.selector);
 
 			formElement.attr("novalidate","novalidate");
 
@@ -51,11 +53,11 @@ window["form_validator"] = window["form_validator"] || {
 
 		for(var i=0; i<fields.length; i++)
 		{
-			if($(fields[i]).attr("type") == 'submit')
+			if(this.$(fields[i]).attr("type") == 'submit')
 				continue;
 
-			$(fields[i]).focus(this.doClean);
-			$(fields[i]).blur(this.doCheck);
+			this.$(fields[i]).focus(this.doClean);
+			this.$(fields[i]).blur(this.doCheck);
 
 			console.log(fields[i]);
 		};
@@ -72,20 +74,21 @@ window["form_validator"] = window["form_validator"] || {
 
 	validateForm : function (ev,callback)
 	{
+		var self = window.form_validator;
 		console.log('validating form');
 
-		var form = $(ev.target).closest("form");
+		var form = self.$(ev.target).closest("form");
 
 		var fields = form.find("input,select,textarea");
 
 		var failed = false;
 		for(var i=0; i<fields.length; i++)
 		{
-			if($(fields[i]).attr("type") == 'submit')
+			if(self.$(fields[i]).attr("type") == 'submit')
 				continue;
 
-			window.form_validator.cleanField($(fields[i]));
-			if( !window.form_validator.checkField($(fields[i])))
+			self.cleanField(self.$(fields[i]));
+			if( !self.checkField(self.$(fields[i])))
 				failed = true;
 		};
 
@@ -96,7 +99,8 @@ window["form_validator"] = window["form_validator"] || {
 	//support event based (blur) of doCheck
 	doCheck : function()
 	{
-		window.form_validator.checkField($(this));
+		var self = window.form_validator;
+		self.checkField(self.$(this));
 	},
 
 	checkField : function(field)
@@ -142,10 +146,12 @@ window["form_validator"] = window["form_validator"] || {
 
 	checkList : function(field,val)
 	{
-		var options = $(field.attr("list")).find("option");
+		var self = window.form_validator;
+
+		var options = self.$(field.attr("list")).find("option");
 
 		for(var i = 0; i < options.length; i++)
-			if($(options[i]).val().toLowerCase() == val.toLowerCase())
+			if(self.$(options[i]).val().toLowerCase() == val.toLowerCase())
 				return true;
 
 		this.showError(field,"invalid_list_value");
@@ -189,9 +195,10 @@ window["form_validator"] = window["form_validator"] || {
 
 	showError : function(field,message)
 	{
+		var self = window.form_validator;
 		var leftAligned = field.css("direction") == "rtl";
 
-		var bg = this.options.error_background ? this.options.error_background : "rgba(255,0,0,0.1)";
+		var bg = self.options.error_background ? self.options.error_background : "rgba(255,0,0,0.1)";
 		field.css("background-color",bg);
 		var fieldName = field.attr("name");
 		console.log(fieldName+" "+message);
@@ -203,16 +210,17 @@ window["form_validator"] = window["form_validator"] || {
 		var errorFieldId = "err_" + (Math.floor(Math.random() * (1000000 - 1000 + 1)) + 1000);
 		field.attr("error-id",errorFieldId);
 
-		field.parent().append("<span id='"+errorFieldId+"' field-name='"+fieldName+"'><img src='"+window.form_validator.exclamationImg+"' /></span>");
+		field.parent().append("<span id='"+errorFieldId+"' field-name='"+fieldName+"'><img src='"+self.exclamationImg+"' /></span>");
 
 		var top = (pos.top + (height - 16) / 2);
 		var left = pos.left + (leftAligned ? 20 : width - 20);
 
-		$("span#"+errorFieldId).css({"position":"absolute","top":top,"left":left,"z-index":"100000"});
+		self.$("span#"+errorFieldId).css({"position":"absolute","top":top,"left":left,"z-index":"100000"});
 	},
 
 	cleanField : function (field)
 	{
+		var self = window.form_validator;
 		var fieldName = field.attr("name");
 		var errorFieldId = field.attr("error-id");
 
@@ -222,12 +230,13 @@ window["form_validator"] = window["form_validator"] || {
 		console.log("cleaning :"+fieldName);
 
 		field.css("background-color", "");
-		$("span#"+errorFieldId).remove();
+		self.$("span#"+errorFieldId).remove();
 		field.removeAttr("error-id");
 	},
 
 	doClean : function()
 	{
-		window.form_validator.cleanField($(this));
+		var self = window.form_validator;
+		self.cleanField(self.$(this));
 	}
 }
