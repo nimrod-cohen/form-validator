@@ -69,6 +69,7 @@ window["form_validator"] = window["form_validator"] || {
 		{
 			ev.preventDefault();
 			self.validateForm(ev,callback);
+			return false; //required for safari.
 		} );
 	},
 
