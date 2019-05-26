@@ -9,9 +9,12 @@ It currently checks for:
 * Phone fields
 and will not submit the form unless all fields pass validity checks.
 
+### Dependencies
+the Form Validator relies on jQuery's existence on page.
+
 ### How to use:
 
-Link your page to the form-validator.js script and then deploy the script below at the bottom of your page, above the </body> tag.
+Link your page to the form-validator.js script and then deploy the script below at the bottom of your page, above the &lt;/body&gt; tag.
 
         var options = {
             forms: [{  /* notice the array, you can assign several forms */
@@ -28,7 +31,8 @@ Link your page to the form-validator.js script and then deploy the script below 
         }
 
 ### Adding dynamically loaded forms
-if forms are popped up, and were not available during init, you may add the ad-hoc using
+if forms are popped up, and were not available during init, you may add those ad-hoc using
+
         var forms = [{
             selector : "#someDynamicallyLoadedForm",
             callback : validationDone

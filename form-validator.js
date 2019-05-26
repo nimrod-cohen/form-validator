@@ -211,7 +211,7 @@ window["form_validator"] = window["form_validator"] || {
 		var errorFieldId = "err_" + (Math.floor(Math.random() * (1000000 - 1000 + 1)) + 1000);
 		field.attr("error-id",errorFieldId);
 
-		field.parent().append("<span id='"+errorFieldId+"' field-name='"+fieldName+"'><img src='"+self.exclamationImg+"' /></span>");
+		field.parent().append("<span id='"+errorFieldId+"' field-name='"+fieldName+"'><img class='exclamation-error' style='width:16px; height:16px;' src='"+self.exclamationImg+"' /></span>");
 
 		var top = (pos.top + (height - 16) / 2);
 		var left = pos.left + (leftAligned ? 20 : width - 20);
